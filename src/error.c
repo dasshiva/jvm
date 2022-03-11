@@ -1,3 +1,8 @@
+/* File : error.c
+ * Descrption : contains methods for dealing with errors
+ * Date : 11.3.22
+ * Author : Shivashish Das
+ */
 #include "include/error.h"
 
 #include <stdio.h>

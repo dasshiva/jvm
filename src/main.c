@@ -1,38 +1,39 @@
-#include "include/reader.h"
+/* File : main.c
+ * Descrption : The entry point for the JVM
+ * Date : 11.3.22
+ * Author : Shivashish Das
+ */
+
+#include "include/class.h"
+#include "include/access.h"
 #include "include/error.h"
-#include "include/pool.h"
 
-int check_version (FILE* fptr) {
-	/* skip the 2 byte long minor version because now-a-days
-	 * its mostly zero anyway
-	 */
-	skip(fptr,2);
-
-	/* The major class file version actually takes up
-	 * just one byte so we read 2 bytes (to comply with the
-	 * JVM spec which says that it is an unsigned 2 byte integer)
-	 * and extract the last 2 digits with the bit mask 0x00FF
-	 */
-
-	u2_t ver = read_u2(fptr);
-	if ((ver & 0x00FF) > 0x34)
-		return 0;
-	return 1;
+void debug_print (flags fg) {
+	if (fg.ispublic)
+	   printf("public ");
+	if (fg.isenum)
+	   printf(" enum ");
+	if (fg.isabstract) {
+		if (fg.isinterface)
+		    printf(" interface ");
+		else 
+		    printf((fg.isfinal)?" final abstract class" : " abstract class ");
+	}
+	else {
+		if (fg.isfinal)
+		    printf(" final ");
+		printf (" class ");
+	}
 }
 
 int main (int argc, char* argv[]) {
-        FILE* fptr = NULL;
+    FILE* fptr = NULL;
 	if (argc<2)
 		err_fatal("Expected a filename");
-        if ((fptr = fopen(argv[1],"rb")) == NULL)
-                err_fatal("File not found");
-        u4_t magic = read_u4(fptr);
-        if (magic != 0xCAFEBABE)
-		err_fatal("Invalid magic number");
-	if (!check_version(fptr)) {
-		err_fatal("Class file version not supported!");
-	}
-	init_cp(read_u2(fptr));
-	fill_cp(fptr);
+    if ((fptr = fopen(argv[1],"rb")) == NULL)
+	    err_fatal("File not found");
+	Java_class* jc = create_class(fptr);
+	//debug_print(jc->fg);
 	fclose(fptr);
 }
+

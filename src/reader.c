@@ -1,3 +1,9 @@
+/* File : reader.c
+ * Description : contains methods for reading from a .class file
+ * Date : 11.3.22
+ * Author : Shivashish Das
+ */
+
 #include "include/reader.h"
 
 unsigned int swap_endian (u4_t num) {
