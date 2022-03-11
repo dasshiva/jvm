@@ -1,6 +1,6 @@
-#include "reader.h"
-#include "pool.h"
-#include "error.h"
+#include "include/reader.h"
+#include "include/pool.h"
+#include "include/error.h"
 
 #include <stdlib.h>
 
@@ -71,7 +71,6 @@ void fill_cp (FILE* fptr) {
 }
 
 static void init_utf8 (utf8_elem* in, FILE* fptr) {
-	printf("Created a constant utf");
 	in = (struct CONSTANT_Utf8_info*) malloc (sizeof(struct CONSTANT_Utf8_info));
 	in->len_bytes = read_u2(fptr);
 	in->bytes = (u1_t*) malloc(sizeof(u1_t) * in->len_bytes);

@@ -1,6 +1,6 @@
-#include "reader.h"
-#include "error.h"
-#include "pool.h"
+#include "include/reader.h"
+#include "include/error.h"
+#include "include/pool.h"
 
 int check_version (FILE* fptr) {
 	/* skip the 2 byte long minor version because now-a-days
@@ -8,14 +8,14 @@ int check_version (FILE* fptr) {
 	 */
 	skip(fptr,2);
 
-	/* The major class file version actually takes up            
-	 * just one byte so we read 2 bytes (to comply with the 
+	/* The major class file version actually takes up
+	 * just one byte so we read 2 bytes (to comply with the
 	 * JVM spec which says that it is an unsigned 2 byte integer)
-         * and extract the last 2 digits with the bit mask 0x00FF
-         */
-	
+	 * and extract the last 2 digits with the bit mask 0x00FF
+	 */
+
 	u2_t ver = read_u2(fptr);
-	if ((ver && 0x00FF) > 0x34) 
+	if ((ver & 0x00FF) > 0x34)
 		return 0;
 	return 1;
 }

@@ -1,4 +1,4 @@
-#include "reader.h"
+#include "include/reader.h"
 
 unsigned int swap_endian (u4_t num) {
 	unsigned int rmbyte,rbyte,lbyte,lmbyte;
