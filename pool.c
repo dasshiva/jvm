@@ -19,6 +19,11 @@ struct CONSTANT_Float_info {
     float val;
 };
 
+struct CONSTANT_Class_info {
+	u2_t n_index;
+};
+static void init_class(struct CONSTANT_Class_info* in, FILE* fptr);
+
 struct CONSTANT_Methodref_info {
 	u2_t cl_index;
 	u2_t nt_index;
@@ -31,6 +36,7 @@ struct pool_elem {
 	int_elem* num;
 	flt_elem* flt;
 	met_elem* met;
+	cl_elem* cl;
 };
 
 static struct pool_elem *cp = NULL;
@@ -52,6 +58,9 @@ void fill_cp (FILE* fptr) {
 			case CONSTANT_Methodref:
 				cp[curr_index].tag = tag;
 				init_methodref(cp[curr_index].met,fptr);
+			case CONSTANT_Class:
+				cp[curr_index].tag = tag;
+				init_class(cp[curr_index].cl,fptr);
 			case CONSTANT_String: break;
 			case CONSTANT_Integer: break;
 			case CONSTANT_Float: break;
@@ -75,4 +84,9 @@ static void init_methodref (met_elem* in, FILE* fptr) {
 	in = (met_elem*) malloc(sizeof(met_elem));
 	in->cl_index = read_u2(fptr);
 	in->nt_index = read_u2(fptr);
+}
+
+static void init_class (cl_elem* in, FILE* fptr) {
+        in = (cl_elem*) malloc(sizeof(cl_elem));
+        in->n_index = read_u2(fptr);
 }

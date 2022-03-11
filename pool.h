@@ -15,7 +15,7 @@
 #define CONSTANT_Float 4
 #define CONSTANT_Long 5
 #define CONSTANT_Double 6
-#define CONSTANT_CLASS 7
+#define CONSTANT_Class 7
 #define CONSTANT_String 8
 #define CONSTANT_Fieldref 9
 #define CONSTANT_Methodref 10
@@ -29,6 +29,8 @@ typedef struct CONSTANT_Utf8_info utf8_elem;
 typedef struct CONSTANT_Integer_info int_elem;
 typedef struct CONSTANT_Float_info flt_elem;
 typedef struct CONSTANT_Methodref_info met_elem;
+typedef struct CONSTANT_Class_info cl_elem;
+
 void init_cp (u2_t sz);
 void fill_cp (FILE* fptr);
 #endif

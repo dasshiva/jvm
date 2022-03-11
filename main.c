@@ -20,9 +20,11 @@ int check_version (FILE* fptr) {
 	return 1;
 }
 
-int main () {
+int main (int argc, char* argv[]) {
         FILE* fptr = NULL;
-        if ((fptr = fopen("Hello.class","rb")) == NULL)
+	if (argc<2)
+		err_fatal("Expected a filename");
+        if ((fptr = fopen(argv[1],"rb")) == NULL)
                 err_fatal("File not found");
         u4_t magic = read_u4(fptr);
         if (magic != 0xCAFEBABE)
