@@ -7,8 +7,7 @@
 #include "include/reader.h"
 #include "include/pool.h"
 #include "include/error.h"
-
-#include <stdlib.h>
+#include "include/mem.h"
 
 #define CONSTANT_Utf8 1
 #define CONSTANT_Integer 3
@@ -31,11 +30,11 @@ static void init_float(struct CONSTANT_Float_info* in, FILE* fptr);
 static void init_int(struct CONSTANT_Integer_info* in, FILE* fptr);
 static void init_class(struct CONSTANT_Class_info* in, FILE* fptr);
 static void init_methodref(struct CONSTANT_Methodref_info* in, FILE* fptr);
-static void init_nameandtype(struct CONSTANT_NameAndType_info* in, FILE*fptr);
+static void init_nameandtype(struct CONSTANT_NameAndType_info* in, FILE* fptr);
 static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr);
 
 void init_cp (constant_pool cp , u2_t sz, FILE* fptr) {
-	cp = (struct pool_elem*) malloc(sizeof(struct pool_elem) * sz);
+	cp = (struct pool_elem*) alloc(sizeof(struct pool_elem) * sz);
 	fill_cp(cp,sz,fptr);
 }
 
@@ -78,23 +77,25 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 }
 
 static void init_utf8 (utf8_elem* in, FILE* fptr) {
-	in = (struct CONSTANT_Utf8_info*) malloc (sizeof(struct CONSTANT_Utf8_info));
+	in = (struct CONSTANT_Utf8_info*) alloc (sizeof(struct CONSTANT_Utf8_info));
 	in->len_bytes = read_u2(fptr);
-	in->bytes = (u1_t*) malloc(sizeof(u1_t) * in->len_bytes);
+	in->bytes = (u1_t*) alloc(sizeof(u1_t) * in->len_bytes);
 	for (int i = 0; i < in->len_bytes; i++) {
 		in->bytes[i] = read_u1(fptr);
 	}
 }
 
 static void init_str(str_elem* in, FILE* fptr) {
-	in = (str_elem*) malloc(sizeof (in));
+	in = (str_elem*) alloc(sizeof (in));
 	in->string_index = read_u2(fptr);
 }
 
 static void init_float(flt_elem* in, FILE* fptr) {
-	in = (flt_elem*) malloc(sizeof (in));
+	in = (flt_elem*) alloc(sizeof (in));
 	in->bytes = read_u4(fptr);
 	int temp = (int) in->bytes;
+
+	/* copied verbatim from the JVM spec */
 	int s = ((temp >> 31) == 0) ? 1 : -1;
 	int e = ((temp >> 23) & 0xff);
 	int m = (e == 0) ? (temp & 0x7fffff) << 1 : (temp & 0x7fffff) | 0x800000;
@@ -102,24 +103,24 @@ static void init_float(flt_elem* in, FILE* fptr) {
 }
 
 static void init_int(int_elem* in, FILE* fptr) {
-	in = (int_elem*) malloc(sizeof (in));
+	in = (int_elem*) alloc(sizeof (in));
 	in->bytes =  read_u4(fptr);
 	in->val = (int) in->bytes;
 }
 
 static void init_methodref (met_elem* in, FILE* fptr) {
-	in = (met_elem*) malloc(sizeof(met_elem));
+	in = (met_elem*) alloc(sizeof(met_elem));
 	in->cl_index = read_u2(fptr);
 	in->nt_index = read_u2(fptr);
 }
 
 static void init_class (cl_elem* in, FILE* fptr) {
-    in = (cl_elem*) malloc(sizeof(cl_elem));
+    in = (cl_elem*) alloc(sizeof(cl_elem));
     in->n_index = read_u2(fptr);
 }
 
 static void init_nameandtype(nt_elem* in, FILE* fptr){
-	in = (nt_elem*) malloc(sizeof(nt_elem));
+	in = (nt_elem*) alloc(sizeof(nt_elem));
 	in->n_index = read_u2(fptr);
 	in->desc_index = read_u2(fptr);
 }

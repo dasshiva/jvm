@@ -8,6 +8,7 @@
 #include "include/access.h"
 #include "include/error.h"
 
+#include <log.h>
 void debug_print (flags fg) {
 	if (fg.ispublic)
 	   printf("public ");
@@ -29,9 +30,9 @@ void debug_print (flags fg) {
 int main (int argc, char* argv[]) {
     FILE* fptr = NULL;
 	if (argc<2)
-		err_fatal("Expected a filename");
+		log_stderr(FATAL,"Expected a filename");
     if ((fptr = fopen(argv[1],"rb")) == NULL)
-	    err_fatal("File not found");
+	    log_stderr(FATAL,"File not found");
 	Java_class* jc = create_class(fptr);
 	//debug_print(jc->fg);
 	fclose(fptr);

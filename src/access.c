@@ -1,3 +1,9 @@
+/* File : access.c
+ * Descrption : defines the access flags and a method to convert the flags of the class file into a flags structure
+ * Date : 12.3.22
+ * Author : Shivashish Das
+ */
+
 #include "include/access.h"
 #include "include/types.h"
 
