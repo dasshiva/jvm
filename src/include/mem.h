@@ -3,7 +3,7 @@
 
 #include <sys/types.h>
 
-void* alloc (size_t sz);
+void* mem_alloc (size_t sz);
 void free_mem (void* mem);
 
 #endif

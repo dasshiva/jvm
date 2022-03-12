@@ -23,7 +23,7 @@ u2_t convert_version (u2_t ver) {
 }
 
 Java_class* create_class (FILE* fptr){
-    Java_class* jc = (Java_class*) alloc(sizeof (struct _class));
+    Java_class* jc = (Java_class*) mem_alloc(sizeof (struct _class));
     jc->magic = read_u4(fptr);
     if (jc->magic != JAVA_MAGIC)
        err_fatal("invalid magic number in class file ");

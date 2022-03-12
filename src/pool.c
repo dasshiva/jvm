@@ -34,7 +34,7 @@ static void init_nameandtype(struct CONSTANT_NameAndType_info* in, FILE* fptr);
 static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr);
 
 void init_cp (constant_pool cp , u2_t sz, FILE* fptr) {
-	cp = (struct pool_elem*) alloc(sizeof(struct pool_elem) * sz);
+	cp = (struct pool_elem*) mem_alloc(sizeof(struct pool_elem) * sz);
 	fill_cp(cp,sz,fptr);
 }
 
@@ -77,21 +77,21 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 }
 
 static void init_utf8 (utf8_elem* in, FILE* fptr) {
-	in = (struct CONSTANT_Utf8_info*) alloc (sizeof(struct CONSTANT_Utf8_info));
+	in = (struct CONSTANT_Utf8_info*) mem_alloc (sizeof(struct CONSTANT_Utf8_info));
 	in->len_bytes = read_u2(fptr);
-	in->bytes = (u1_t*) alloc(sizeof(u1_t) * in->len_bytes);
+	in->bytes = (u1_t*) mem_alloc(sizeof(u1_t) * in->len_bytes);
 	for (int i = 0; i < in->len_bytes; i++) {
 		in->bytes[i] = read_u1(fptr);
 	}
 }
 
 static void init_str(str_elem* in, FILE* fptr) {
-	in = (str_elem*) alloc(sizeof (in));
+	in = (str_elem*) mem_alloc(sizeof (in));
 	in->string_index = read_u2(fptr);
 }
 
 static void init_float(flt_elem* in, FILE* fptr) {
-	in = (flt_elem*) alloc(sizeof (in));
+	in = (flt_elem*) mem_alloc(sizeof (in));
 	in->bytes = read_u4(fptr);
 	int temp = (int) in->bytes;
 
@@ -103,24 +103,24 @@ static void init_float(flt_elem* in, FILE* fptr) {
 }
 
 static void init_int(int_elem* in, FILE* fptr) {
-	in = (int_elem*) alloc(sizeof (in));
+	in = (int_elem*) mem_alloc(sizeof (in));
 	in->bytes =  read_u4(fptr);
 	in->val = (int) in->bytes;
 }
 
 static void init_methodref (met_elem* in, FILE* fptr) {
-	in = (met_elem*) alloc(sizeof(met_elem));
+	in = (met_elem*) mem_alloc(sizeof(met_elem));
 	in->cl_index = read_u2(fptr);
 	in->nt_index = read_u2(fptr);
 }
 
 static void init_class (cl_elem* in, FILE* fptr) {
-    in = (cl_elem*) alloc(sizeof(cl_elem));
+    in = (cl_elem*) mem_alloc(sizeof(cl_elem));
     in->n_index = read_u2(fptr);
 }
 
 static void init_nameandtype(nt_elem* in, FILE* fptr){
-	in = (nt_elem*) alloc(sizeof(nt_elem));
+	in = (nt_elem*) mem_alloc(sizeof(nt_elem));
 	in->n_index = read_u2(fptr);
 	in->desc_index = read_u2(fptr);
 }
