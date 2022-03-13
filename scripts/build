@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+if [[ -d "src" ]]; then
+	SRC_DIR="src"
+else
+	echo "This script must be run from the root of the repo!"
+	exit 1
+fi
+TP_SRC_DIR="third-party/log/src"
+SRC="$SRC_DIR/access.c $SRC_DIR/pool.c $SRC_DIR/mem.c \
+	$SRC_DIR/class.c $SRC_DIR/reader.c $SRC_DIR/attrs.c \
+	$SRC_DIR/cmdparser.c $SRC_DIR/main.c $TP_SRC_DIR/log.c"
+gcc -c $SRC -I$TP_SRC_DIR -I$SRC_DIR/include
+gcc *.o -o bin/java
+rm *.o

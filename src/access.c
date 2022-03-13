@@ -6,6 +6,7 @@
 
 #include "include/access.h"
 #include "include/types.h"
+#include <log.h>
 
 /* class access flags copied from the JVM spec*/
 
@@ -19,7 +20,8 @@
 #define ACC_ENUM	0x4000	// Declared as an enum type.
 
 
-flags get_flags(u2_t acc_flags) {
+flags get_flags(u2_t acc_flags) {	
+    log_stderr(TRACE, "Class access flags : %d",acc_flags);
     flags fs = {0};
     if (acc_flags & ACC_PUBLIC)
        fs.ispublic = 1;

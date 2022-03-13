@@ -6,9 +6,10 @@
 
 #include "include/reader.h"
 #include "include/pool.h"
-#include "include/error.h"
 #include "include/mem.h"
+#include "include/cmdparser.h"
 
+#include <log.h>
 #define CONSTANT_Utf8 1
 #define CONSTANT_Integer 3
 #define CONSTANT_Float 4
@@ -34,8 +35,20 @@ static void init_nameandtype(struct CONSTANT_NameAndType_info* in, FILE* fptr);
 static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr);
 
 void init_cp (constant_pool cp , u2_t sz, FILE* fptr) {
-	cp = (struct pool_elem*) mem_alloc(sizeof(struct pool_elem) * sz);
+	cp = (struct pool_elem*) mem_alloc(sizeof(struct pool_elem) * sz); 
+	log_stderr(TRACE, "allocated %d bytes for constant pool",sz * sizeof (struct pool_elem));
 	fill_cp(cp,sz,fptr);
+}
+
+void resolve_utf8(constant_pool cp, u2_t index) {
+	if (cp[index].tag == CONSTANT_Class) {
+		/*for (int i = 0; i < cp[(cp[index].cl->n_index) - 1].utf->len_bytes; i++) {
+			printf("%c",cp[(cp[index].cl->n_index) - 1].utf->bytes[i]);
+		}
+		*/
+	}
+	else
+		printf("This isn't UTF LMAO");
 }
 
 static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
@@ -45,7 +58,12 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 		switch (tag) {
 			case CONSTANT_Utf8:
 				cp[curr_index].tag = tag;
-				init_utf8(cp[curr_index].utf,fptr);
+				cp[curr_index].utf = (utf8_elem*) mem_alloc (sizeof(utf8_elem));                      
+				cp[curr_index].utf->len_bytes = read_u2(fptr);                                        
+				cp[curr_index].utf->bytes = (u1_t*) mem_alloc(sizeof(u1_t) * cp[curr_index].utf->len_bytes);          
+				for (int i = 0; i < cp[curr_index].utf->len_bytes; i++) {                                     
+					cp[curr_index].utf->bytes[i] = read_u1(fptr);                                 
+				}
 				break;
 			case CONSTANT_Methodref:
 				cp[curr_index].tag = tag;
@@ -53,10 +71,12 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 				break;
 			case CONSTANT_Class:
 				cp[curr_index].tag = tag;
-				init_class(cp[curr_index].cl,fptr);
+				cp[curr_index].cl = (cl_elem*) mem_alloc(sizeof (cl_elem));
+				cp[curr_index].cl->n_index = read_u2(fptr);
+				//resolve_utf8(cp,curr_index);
 				break;
 			case CONSTANT_NameAndType:
-			    cp[curr_index].tag = tag;
+				cp[curr_index].tag = tag;
 				init_nameandtype(cp[curr_index].nt,fptr);
 				break;
 			case CONSTANT_String: 
@@ -71,13 +91,14 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 			    cp[curr_index].tag = tag;
 				init_float(cp[curr_index].flt,fptr);
 				break;
-			default: printf("VM error: Unsupported tag : %d",tag); err_exit();
+			default: log_stderr(WARN,"Unsupported tag %d", tag);
 		}
+		printf("%d\n",tag);
 	}
 }
 
 static void init_utf8 (utf8_elem* in, FILE* fptr) {
-	in = (struct CONSTANT_Utf8_info*) mem_alloc (sizeof(struct CONSTANT_Utf8_info));
+	in = (utf8_elem*) mem_alloc (sizeof(utf8_elem));
 	in->len_bytes = read_u2(fptr);
 	in->bytes = (u1_t*) mem_alloc(sizeof(u1_t) * in->len_bytes);
 	for (int i = 0; i < in->len_bytes; i++) {
@@ -117,6 +138,7 @@ static void init_methodref (met_elem* in, FILE* fptr) {
 static void init_class (cl_elem* in, FILE* fptr) {
     in = (cl_elem*) mem_alloc(sizeof(cl_elem));
     in->n_index = read_u2(fptr);
+    printf("Run complete %d",in->n_index);
 }
 
 static void init_nameandtype(nt_elem* in, FILE* fptr){
@@ -124,3 +146,5 @@ static void init_nameandtype(nt_elem* in, FILE* fptr){
 	in->n_index = read_u2(fptr);
 	in->desc_index = read_u2(fptr);
 }
+
+

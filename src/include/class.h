@@ -14,6 +14,9 @@ typedef struct _class {
     flags fg;
     u2_t this_class;
     u2_t super_class;
+    u2_t inters_count;
+    u2_t* inters;
+    u2_t fields_count;
 } Java_class;
 
 Java_class* create_class(FILE* fptr);

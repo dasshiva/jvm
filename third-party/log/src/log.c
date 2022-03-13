@@ -25,11 +25,12 @@
 
 #include "log.h"
 
+#include <cmdparser.h>
 void exit(int status);
 
 
 static const char *level_strings[] = {
-  "TRACE", "DEBUG", "INFO", "VM Warning : ", "ERROR", "Fatal VM Error :"
+  "VM Trace :", "Info :", "VM Warning : ","Fatal VM Error :"
 };
 
 
@@ -66,9 +67,13 @@ void log_stderr (int level, const char *fmt, ...) {
 		.level = level,
 	};
 
-	va_start(ev.ap, fmt);
-	stdout_callback(&ev);
-	va_end(ev.ap);
+	/* Shivashish Das 13.3.22 :
+	 * Don't log traces unless we are running on verbose mode */
+	if ((level == TRACE && is_verbose()) || level !=TRACE) {
+		va_start(ev.ap, fmt);
+		stdout_callback(&ev);
+		va_end(ev.ap);
+	}
 
 	if (level == FATAL) 
 		exit(1);

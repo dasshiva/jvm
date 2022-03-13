@@ -28,7 +28,7 @@ typedef struct {
 typedef void (*log_LogFn)(log_Event *ev);
 typedef void (*log_LockFn)(bool lock, void *udata);
 
-enum { TRACE, DEBUG, INFO, WARN, ERROR, FATAL };
+enum { TRACE, INFO, WARN,  FATAL };
 
 void log_stderr(int level, const char *fmt, ...);
 void log_f(FILE* fptr, int level, const char* file , int line, const char* fmt,...);
