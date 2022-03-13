@@ -42,18 +42,15 @@ void init_cp (constant_pool cp , u2_t sz, FILE* fptr) {
 
 void resolve_utf8(constant_pool cp, u2_t index) {
 	if (cp[index].tag == CONSTANT_Class) {
-		/*for (int i = 0; i < cp[(cp[index].cl->n_index) - 1].utf->len_bytes; i++) {
-			printf("%c",cp[(cp[index].cl->n_index) - 1].utf->bytes[i]);
+		for (int i = 0; i < cp[(cp[index].cl->n_index)].utf->len_bytes; i++) {
+			printf("%c",cp[(cp[index].cl->n_index)].utf->bytes[i]);
 		}
-		*/
 	}
-	else
-		printf("This isn't UTF LMAO");
 }
 
 static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 	u1_t tag;
-	for (u2_t curr_index = 0; curr_index < sz ; curr_index++) {
+	for (u2_t curr_index = 1; curr_index < sz ; curr_index++) {
 		tag = read_u1(fptr);
 		switch (tag) {
 			case CONSTANT_Utf8:
@@ -73,7 +70,6 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 				cp[curr_index].tag = tag;
 				cp[curr_index].cl = (cl_elem*) mem_alloc(sizeof (cl_elem));
 				cp[curr_index].cl->n_index = read_u2(fptr);
-				//resolve_utf8(cp,curr_index);
 				break;
 			case CONSTANT_NameAndType:
 				cp[curr_index].tag = tag;
@@ -93,7 +89,6 @@ static void fill_cp (constant_pool cp, u2_t sz, FILE* fptr) {
 				break;
 			default: log_stderr(WARN,"Unsupported tag %d", tag);
 		}
-		printf("%d\n",tag);
 	}
 }
 

@@ -6,7 +6,7 @@
 
 #include "include/reader.h"
 
-static u4_t swap_endian (u4_t num) {
+static u4_t u4_swap_endian (u4_t num) {
 	unsigned int rmbyte,rbyte,lbyte,lmbyte;
 	rmbyte = num & 0x000000ff;
 	rbyte = (num & 0x0000ff00) >> 8;
@@ -15,16 +15,20 @@ static u4_t swap_endian (u4_t num) {
 	return lmbyte | (lbyte << 8) | (rbyte << 16) | (rmbyte << 24);
 }
 
+static inline u2_t u2_swap_endian (u2_t num) {
+	return (num>>8) | (num << 8);
+}
+
 u4_t read_u4 (FILE* src) {
 	u4_t data;
         fread(&data, sizeof(u4_t), 1, src);
-	return swap_endian(data);
+	return u4_swap_endian(data);
 }
 
 u2_t read_u2 (FILE* src) {
 	u2_t data = 0;
 	fread(&data, sizeof(u2_t), 1, src);
-	return data;
+	return u2_swap_endian(data);
 }
 
 u1_t read_u1 (FILE* src) {
