@@ -10,7 +10,7 @@ typedef struct _class {
     u4_t magic;
     u2_t minor , major;
     u2_t cp_count;
-    constant_pool cp;
+    constant_pool* cp;
     flags fg;
     u2_t this_class;
     u2_t super_class;

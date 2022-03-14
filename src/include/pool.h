@@ -45,9 +45,11 @@ struct pool_elem {
 	met_elem* met;
 	cl_elem* cl;
 	nt_elem* nt;
-    str_elem* str;
+	str_elem* str;
 };
 
-typedef struct pool_elem* constant_pool;
-void init_cp (constant_pool cp, u2_t sz, FILE* fptr);
+typedef struct pool_elem constant_pool;
+void init_cp (constant_pool** cp, u2_t sz, FILE* fptr);
+u1_t* resolve_utf8(constant_pool* cp, u2_t index, u2_t sz);
+
 #endif
