@@ -32,6 +32,11 @@ typedef struct CONSTANT_Methodref_info {
 	u2_t nt_index;
 } met_elem;
 
+typedef struct CONSTANT_Fieldref_info {
+	u2_t cl_index;
+	u2_t nt_index;
+} fld_elem;
+
 typedef struct CONSTANT_NameAndType_info {
     u2_t n_index;
     u2_t desc_index;
@@ -43,6 +48,7 @@ struct pool_elem {
 	int_elem* num;
 	flt_elem* flt;
 	met_elem* met;
+	fld_elem* fld;
 	cl_elem* cl;
 	nt_elem* nt;
 	str_elem* str;

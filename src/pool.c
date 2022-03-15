@@ -80,6 +80,12 @@ static void fill_cp (constant_pool** cp, u2_t sz, FILE* fptr) {
 				cp1[curr_index].str = (str_elem*) mem_alloc(sizeof (str_elem));
 				cp1[curr_index].str->string_index = read_u2(fptr);
 				break;
+			case CONSTANT_Fieldref:
+				cp1[curr_index].tag = tag;          
+				cp1[curr_index].fld = (fld_elem*) mem_alloc(sizeof (met_elem)); 
+				cp1[curr_index].fld->cl_index = read_u2(fptr);
+                                cp1[curr_index].fld->nt_index = read_u2(fptr);
+                                break;
 			/*
 			case CONSTANT_Integer:
 				cp[curr_index].tag = tag;
