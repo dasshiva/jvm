@@ -5,6 +5,8 @@
  */
 
 #include "include/attrs.h"
+#include "include/resolve.h"
+#include "include/pool.h"
 #include "include/reader.h"
 #include "include/mem.h"
 

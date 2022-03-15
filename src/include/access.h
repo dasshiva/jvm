@@ -3,14 +3,24 @@
 
 #include "types.h"
 
-#define FIELD 0x1
-#define NOT_FIELD 0x2
+typedef struct _class_flags { // TODO: Add support for ACC_SUPER
+	u1_t ispublic, isfinal;
+	u1_t isinterface, isabstract, isenum, isannotation;
+	u1_t issynthetic;
+} cl_flags;
 
-typedef struct _flags {
-    u1_t ispublic, isprivate, isprotected, isfinal;
-    u1_t isinterface, isabstract, isenum, isannotation;
-    u1_t isvolatile, istransient, issynthetic;
-} flags;
+typedef struct _field_flags {
+	u1_t ispublic, isprivate, isprotected, isenum;
+	u1_t isvolatile, istransient, isfinal, issynthetic, isstatic;
+} fl_flags;
 
-flags get_flags(u2_t, u1_t);
+typedef struct _method_flags { // TODO: Add support for ACC_VARARGS
+	u1_t ispublic, isprivate, isprotected;
+	u1_t isstatic, isfinal, issync, isbridge, isnative, isabstract;
+	u1_t issynthetic, isstrict;
+} mt_flags;
+
+cl_flags get_class_flags(u2_t);
+fl_flags get_field_flags(u2_t);
+mt_flags get_method_flags(u2_t);
 #endif

@@ -1,0 +1,8 @@
+#ifndef _RESOLVE_H_
+#define _RESOLVE_H_
+
+#include "pool.h"
+
+u1_t* resolve_utf8 (constant_pool**, u2_t, u2_t);
+
+#endif

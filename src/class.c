@@ -5,19 +5,19 @@
  */
 
 #include "include/class.h"
+#include "include/resolve.h"
 #include "include/error.h"
 #include "include/reader.h"
 #include "include/access.h"
 #include "include/mem.h"
 
-#include <stdio.h>
 #include <log.h>
 
 #define JAVA_MAGIC 0xCAFEBABE
 
 extern int is_verbose();
 
-void debug_print (flags* fg) {     
+void debug_print (cl_flags* fg) {     
 	printf("Access flags are interpreted as : ");
 	if (fg->ispublic)                 
 		printf("public ");         
@@ -48,13 +48,13 @@ Java_class* create_class (FILE* fptr){
     jc->cp_count = read_u2(fptr);
     log_stderr(TRACE,"Constant pool size : %d",jc->cp_count);
     init_cp(&jc->cp, jc->cp_count, fptr);
-    jc->fg = get_flags(read_u2(fptr), NOT_FIELD);
+    jc->fg = get_class_flags(read_u2(fptr));
     //if (is_verbose())
     //   debug_print(&jc->fg);
     jc->this_class = read_u2(fptr);
-    log_stderr(TRACE,"This class : %s", resolve_utf8(jc->cp, jc->this_class, jc->cp_count));
+    log_stderr(TRACE,"This class : %s", resolve_utf8(&jc->cp, jc->this_class, jc->cp_count));
     jc->super_class = read_u2(fptr);
-    log_stderr(TRACE,"Super class : %s ",resolve_utf8(jc->cp, jc->super_class, jc->cp_count));
+    log_stderr(TRACE,"Super class : %s ", resolve_utf8(&jc->cp, jc->super_class, jc->cp_count));
     jc->inters_count = read_u2(fptr);
     jc->inters = (u2_t*) mem_alloc(sizeof (u2_t) * jc->inters_count);
     for (u2_t i = 0; i < jc->inters_count; i++) {
@@ -62,5 +62,7 @@ Java_class* create_class (FILE* fptr){
     }
     jc->fields_count = read_u2(fptr);
     init_fields(&jc->fds, jc->fields_count, fptr);
+    jc->meths_count = read_u2(fptr);
+    init_methods(&jc->mts, jc->meths_count, fptr);
     return jc;
 }

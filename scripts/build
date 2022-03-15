@@ -11,7 +11,13 @@ TP_SRC_DIR="third-party/log/src"
 SRC="$SRC_DIR/access.c $SRC_DIR/pool.c $SRC_DIR/mem.c \
 	$SRC_DIR/class.c $SRC_DIR/reader.c $SRC_DIR/attrs.c \
 	$SRC_DIR/cmdparser.c $SRC_DIR/main.c $TP_SRC_DIR/log.c \
-	$SRC_DIR/fields.c $SRC_DIR/attrs.c"
-gcc -c $SRC -I$TP_SRC_DIR -I$SRC_DIR/include -Werror -Wpedantic
-gcc *.o -o bin/java 
+	$SRC_DIR/fields.c $SRC_DIR/attrs.c $SRC_DIR/methods.c \
+	$SRC_DIR/resolve.c"
+gcc -c $SRC -I$TP_SRC_DIR -I$SRC_DIR/include  -Wpedantic
+if [[ -d "bin" ]]; then
+	gcc *.o -o bin/java 
+else
+	mkdir bin
+	gcc *.o -o bin/java
+fi
 rm *.o

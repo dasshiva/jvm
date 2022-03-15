@@ -18,7 +18,7 @@ void init_fields(fields** fd, u2_t sz, FILE* fptr) {
 static void fill_fields(fields** fd, u2_t sz, FILE* fptr) {
 	fields* field = *fd;
 	for (int i = 0; i < sz; i++) {
-		field[i].acc = get_flags(read_u2(fptr), FIELD);
+		field[i].acc = get_field_flags(read_u2(fptr));
 		field[i].n_index = read_u2(fptr);
 		field[i].desc_index = read_u2(fptr);
 		field[i].attr = create_attr(fptr);

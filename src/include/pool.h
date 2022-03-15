@@ -4,6 +4,21 @@
 #include "types.h"
 #include <stdio.h>
 
+#define CONSTANT_Utf8 1           
+#define CONSTANT_Integer 3
+#define CONSTANT_Float 4
+#define CONSTANT_Long 5
+#define CONSTANT_Double 6
+#define CONSTANT_Class 7
+#define CONSTANT_String 8
+#define CONSTANT_Fieldref 9
+#define CONSTANT_Methodref 10
+#define CONSTANT_InterfaceMethodref 11
+#define CONSTANT_NameAndType 12
+#define CONSTANT_MethodHandle 15    
+#define CONSTANT_MethodType 16
+#define CONSTANT_InvokeDynamic 18
+
 typedef struct CONSTANT_Utf8_info {
 	u2_t len_bytes;
 	u1_t* bytes;
@@ -56,6 +71,5 @@ struct pool_elem {
 
 typedef struct pool_elem constant_pool;
 void init_cp (constant_pool** cp, u2_t sz, FILE* fptr);
-u1_t* resolve_utf8(constant_pool* cp, u2_t index, u2_t sz);
 
 #endif

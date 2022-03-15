@@ -5,8 +5,6 @@
  */
 
 #include "include/class.h"
-#include "include/access.h"
-#include "include/error.h"
 #include "include/cmdparser.h"
 #include <log.h>
 
@@ -15,6 +13,7 @@ int main (int argc, char* argv[]) {
     FILE *fptr = fopen(get_file(),"rb");
     log_stderr(TRACE,"Starting JVM");
     Java_class* jc = create_class(fptr);
+
     fclose(fptr);
 }
 

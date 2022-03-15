@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 typedef struct _field {
-	flags acc;
+	fl_flags acc;
 	u2_t n_index;
 	u2_t desc_index;
 	attrs* attr;
