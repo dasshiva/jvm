@@ -63,6 +63,7 @@ Java_class* create_class (FILE* fptr){
     jc->fields_count = read_u2(fptr);
     init_fields(&jc->fds, jc->fields_count, fptr);
     jc->meths_count = read_u2(fptr);
-    init_methods(&jc->mts, jc->meths_count, fptr);
+    log_stderr(TRACE, "Initializing methods ");
+    init_methods(&jc->mts, jc->meths_count, fptr, &jc->cp);
     return jc;
 }

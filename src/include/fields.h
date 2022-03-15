@@ -10,7 +10,7 @@ typedef struct _field {
 	fl_flags acc;
 	u2_t n_index;
 	u2_t desc_index;
-	attrs* attr;
+	field_attrs* attr;
 } fields;
 
 void init_fields(fields** fd, u2_t sz, FILE* fptr);

@@ -21,7 +21,7 @@ static void fill_fields(fields** fd, u2_t sz, FILE* fptr) {
 		field[i].acc = get_field_flags(read_u2(fptr));
 		field[i].n_index = read_u2(fptr);
 		field[i].desc_index = read_u2(fptr);
-		field[i].attr = create_attr(fptr);
+		field[i].attr = get_field_attr(fptr);
 	}
 }
 

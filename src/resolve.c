@@ -14,4 +14,3 @@ u1_t* resolve_utf8(constant_pool** cp, u2_t index, u2_t sz) {
 	}
 }
 
-
