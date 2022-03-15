@@ -1,3 +1,9 @@
+/* File : cmdflags.c
+ * Descrption : contains methods for parsing command-line arguments and for checking the results 
+ * Date : 13.3.22
+ * Author : Shivashish Das
+ */
+
 #include "include/cmdparser.h"
 #include <log.h>
 

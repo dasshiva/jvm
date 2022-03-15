@@ -2,10 +2,15 @@
 #define _ACCESS_H_
 
 #include "types.h"
-typedef struct class_flags {
-    int ispublic, isfinal, isinterface;
-    int isabstract, isenum;
+
+#define FIELD 0x1
+#define NOT_FIELD 0x2
+
+typedef struct _flags {
+    u1_t ispublic, isprivate, isprotected, isfinal;
+    u1_t isinterface, isabstract, isenum, isannotation;
+    u1_t isvolatile, istransient, issynthetic;
 } flags;
 
-flags get_flags(u2_t);
+flags get_flags(u2_t, u1_t);
 #endif

@@ -6,32 +6,54 @@
 
 #include "include/access.h"
 #include "include/types.h"
-#include <log.h>
 
-/* class access flags copied from the JVM spec*/
+/* access flags copied from the JVM spec */
 
 #define ACC_PUBLIC	0x0001	// Declared public; may be accessed from outside its package.
-#define ACC_FINAL	0x0010	// Declared final; no subclasses allowed.
+#define ACC_FINAL	0x0010	// Declared final; no subclasses allowed or if used for a field then the field can never be directly assigned to after object creation
 #define ACC_SUPER	0x0020	// Treat superclass methods specially when invoked by the invokespecial instruction.
 #define ACC_INTERFACE	0x0200	// Is an interface, not a class.
 #define ACC_ABSTRACT	0x0400	// Declared abstract; must not be instantiated.
+#define ACC_PRIVATE	0x0002	// Declared private; usable only within the defining class.
+#define ACC_PROTECTED	0x0004	// Declared protected; may be accessed within subclasses.
+#define ACC_STATIC	0x0008	// Declared static
+#define ACC_VOLATILE	0x0040	// Declared volatile; cannot be cached
+#define ACC_TRANSIENT	0x0080	// Declared transient; not written or read by a persistent object manager.
 #define ACC_SYNTHETIC	0x1000	// Declared synthetic; not present in the source code.
 #define ACC_ANNOTATION	0x2000	// Declared as an annotation type.
 #define ACC_ENUM	0x4000	// Declared as an enum type.
 
 
-flags get_flags(u2_t acc_flags) {	
-    log_stderr(TRACE, "Class access flags : %d",acc_flags);
+flags get_flags(u2_t acc_flags, u1_t ctx) {	
     flags fs = {0};
     if (acc_flags & ACC_PUBLIC)
-       fs.ispublic = 1;
-    if (acc_flags & ACC_FINAL)
-       fs.isfinal = 1;
+	    fs.ispublic = 1;
+    if (acc_flags & ACC_SYNTHETIC)
+	    fs.issynthetic = 1;
+
+    // check these flags only if this is a field
+    if (ctx == FIELD) {
+	    if (acc_flags & ACC_PRIVATE)
+		    fs.isprivate = 1;
+	    if (acc_flags & ACC_PROTECTED)
+		    fs.isprotected = 1;
+	    if (acc_flags & ACC_FINAL) 
+		    fs.isfinal = 1;
+	    if (acc_flags & ACC_VOLATILE)             
+		    fs.isvolatile = 1;
+	    if (acc_flags & ACC_TRANSIENT) 
+		    fs.istransient = 1;
+	    return fs; // return early because we don't need to check the rest as none of them are applicable for fields
+    }
     if (acc_flags & ACC_INTERFACE)
-       fs.isinterface = 1;
+	    fs.isinterface = 1;
     if (acc_flags & ACC_ABSTRACT)
-       fs.isabstract = 1;
+	    fs.isabstract = 1;
     if (acc_flags & ACC_ENUM)
-       fs.isenum = 1 ;
+	    fs.isenum = 1 ;
+    if (acc_flags & ACC_ANNOTATION)
+	    fs.isannotation = 1;
+    if (acc_flags & ACC_SYNTHETIC)
+	    fs.issynthetic = 1;
     return fs;
 }

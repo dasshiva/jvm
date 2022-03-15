@@ -48,7 +48,7 @@ Java_class* create_class (FILE* fptr){
     jc->cp_count = read_u2(fptr);
     log_stderr(TRACE,"Constant pool size : %d",jc->cp_count);
     init_cp(&jc->cp, jc->cp_count, fptr);
-    jc->fg = get_flags(read_u2(fptr));
+    jc->fg = get_flags(read_u2(fptr), NOT_FIELD);
     //if (is_verbose())
     //   debug_print(&jc->fg);
     jc->this_class = read_u2(fptr);
@@ -60,5 +60,7 @@ Java_class* create_class (FILE* fptr){
     for (u2_t i = 0; i < jc->inters_count; i++) {
 	    jc->inters[i] = read_u2(fptr);
     }
+    jc->fields_count = read_u2(fptr);
+    init_fields(&jc->fds, jc->fields_count, fptr);
     return jc;
 }

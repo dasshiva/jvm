@@ -1,5 +1,5 @@
 /* File : pool.c
- * Description : contains methods for creating the constant pool
+ * Description : contains methods for creating the constant pool and resolving constant pool indices 
  * Date : 11.3.22
  * Author : Shivashish Das
  */

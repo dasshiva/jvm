@@ -1,3 +1,9 @@
+/* File : attrs.c
+ * Descrption : contains a method for creating attributes
+ * Date : 14.3.22
+ * Author : Shivashish Das
+ */
+
 #include "include/attrs.h"
 #include "include/reader.h"
 #include "include/mem.h"

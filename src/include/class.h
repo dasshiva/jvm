@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pool.h"
 #include "access.h"
+#include "fields.h"
 #include <stdio.h>
 
 typedef struct _class {
@@ -17,6 +18,7 @@ typedef struct _class {
     u2_t inters_count;
     u2_t* inters;
     u2_t fields_count;
+    fields* fds;    
 } Java_class;
 
 Java_class* create_class(FILE* fptr);

@@ -1,7 +1,7 @@
 #ifndef  _CMDPARSER_H_
 #define  _CMDPARSER_H_
 
-typedef struct _flags {
+typedef struct _cmdln_flags {
 	int verbose;
 	char *file;
 } cmdflags;
