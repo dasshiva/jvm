@@ -24,12 +24,13 @@ field_attrs* get_field_attr (FILE* fptr) {
 
 method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) {
 	method_attrs* met = (method_attrs*) mem_alloc(sizeof (method_attrs) * total_attrs);
-	for (int i = 0; i < total_attrs; i++)
-		u1_t* attr_name = resolve_utf8(cp, read_u2(fptr));
+	u1_t* attr_name = NULL;
+	for (int i = 0; i < total_attrs; i++){
+		attr_name = resolve_utf8(cp,read_u2(fptr));
 		if (strcmp("Code",attr_name) == 0) {
 			met->have_code = 1;
 			met->code = (code_attr*) mem_alloc(sizeof (code_attr));
-			met->code->len = read_u2(fptr);
+			met->code->len = read_u4(fptr);
 			met->code->max_stack = read_u2(fptr);
 			met->code->max_locals = read_u2(fptr);
 			met->code->code_len = read_u4(fptr);
@@ -44,8 +45,7 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 			met->code->attr_info = (struct _at_info*) mem_alloc(sizeof (struct _at_info));
 			for (int i = 0; i < met->code->attrs_count; i++) {
 				attr_name = resolve_utf8(cp,read_u2(fptr));
-				if (strcmp("LineNumberTable", attr_name)) {
-					printf("here");
+				if (strcmp("LineNumberTable", attr_name) == 0) {
 					met->code->attr_info->have_tab = 1;
 					met->code->attr_info->lt = (line_num_table_attr*) mem_alloc(sizeof (line_num_table_attr));
 					met->code->attr_info->lt->attr_len = read_u4(fptr);
@@ -57,7 +57,9 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 					}
 
 				}
-				/* TODO: It is against the JVM spec for any JVM implementation to complain when it does not recognize an attribute so we have to support ignoring unknown (or unsupported) attributes as soon as possible */
+				/* TODO: It is against the JVM spec for any JVM implementation to complain 
+				 * when it does not recognize an attribute so we have to support 
+				 * ignoring unknown (or unsupported) attributes as soon as possible */
 				else
 					log_stderr(FATAL, "Code attribute %s not supported yet", attr_name);
 			}

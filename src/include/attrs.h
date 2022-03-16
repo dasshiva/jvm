@@ -15,7 +15,8 @@ typedef struct {
 } line_num_table_attr;
 
 typedef struct {
-    u4_t len;                                                             u2_t max_stack;
+    u4_t len;                                                             
+    u2_t max_stack;
     u2_t max_locals;
     u4_t code_len;
     u1_t* code;

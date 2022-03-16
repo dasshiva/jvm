@@ -18,9 +18,9 @@ void init_methods(methods** mt, u2_t sz, FILE* fptr, constant_pool** cp) {
 	for (int i = 1; i <= sz; i++) {
 		m[i].acc = get_method_flags(read_u2(fptr));
 		m[i].n_index = read_u2(fptr);
-		log_stderr(TRACE,"Registered function %s", resolve_utf8(cp,m[i].n_index));
 		m[i].desc_index = read_u2(fptr);
 		m[i].attr = get_method_attr(fptr,cp, read_u2(fptr));
+		log_stderr(TRACE,"Registered function %s", resolve_utf8(cp,m[i].n_index));
 	}
 }
 
