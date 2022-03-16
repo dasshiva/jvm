@@ -40,7 +40,7 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 			}
 			met->code->except_table_len = read_u2(fptr);
 			if (met->code->except_table_len != 0)
-				log_stderr(FATAL, "Exceptions are not supported for now");
+				log_fatal("Exceptions are not supported for now");
 			met->code->attrs_count = read_u2(fptr);
 			met->code->attr_info = (struct _at_info*) mem_alloc(sizeof (struct _at_info));
 			for (u2_t i = 0; i < met->code->attrs_count; i++) {
@@ -62,10 +62,10 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 				 * when it does not recognize an attribute so we have to support 
 				 * ignoring unknown (or unsupported) attributes as soon as possible */
 				else
-					log_stderr(FATAL, "Code attribute %s not supported yet", attr_name);
+					log_fatal("Code attribute %s not supported yet", attr_name);
 			}
 		}
-		else log_stderr (FATAL, "Attribute %s is not supported yet", attr_name);
+		else log_fatal("Attribute %s is not supported yet", attr_name);
 	}
 	return met;
 }
@@ -80,7 +80,7 @@ class_attrs* get_class_attr (FILE* fptr, constant_pool** cp, u2_t max_attrs) {
 			ca[i].attr_len = read_u2(fptr);
 			ca[i].cp_index = read_u2(fptr);
 		}
-		else log_stderr (FATAL, "Attribute %s is not supported yet", attr_name);
+		else log_fatal("Attribute %s is not supported yet", attr_name);
 	}
 	return ca;
 }

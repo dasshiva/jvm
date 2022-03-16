@@ -11,9 +11,10 @@
 int main (int argc, char* argv[]) {
     parse_args(argc,argv);
     FILE *fptr = fopen(get_file(),"rb");
-    log_stderr(TRACE,"Starting JVM");
+    if(is_log_file())
+	    set_file_target(fopen("log.txt","w"));
+    log_trace("Starting JVM");
     Java_class* jc = create_class(fptr);
-
     fclose(fptr);
 }
 

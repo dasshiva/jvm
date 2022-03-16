@@ -30,9 +30,12 @@ typedef void (*log_LockFn)(bool lock, void *udata);
 
 enum { TRACE, INFO, WARN,  FATAL };
 
-void log_stderr(int level, const char *fmt, ...);
-void log_f(FILE* fptr, int level, const char* file , int line, const char* fmt,...);
+void log_log(int level, const char* file, int lineno, const char *fmt, ...);
+void set_file_target (FILE*);
 
-#define log_file(...) log_f(fptr,level,__FILE__,__LINE__,__VA_ARGS__)
+#define log_fatal(...) log_log(FATAL, __FILE__, __LINE__, __VA_ARGS__)
+#define log_warn(...) log_log(WARN, __FILE__, __LINE__, __VA_ARGS__)
+#define log_info(...)  log_log(INFO,  __FILE__, __LINE__, __VA_ARGS__)
+#define log_trace(...) log_log(TRACE, __FILE__, __LINE__, __VA_ARGS__)
 
 #endif

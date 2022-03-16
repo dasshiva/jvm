@@ -12,7 +12,7 @@
 void* mem_alloc (size_t st) {
 	void* mem = malloc(st);
 	if(!mem) {
-		log_stderr(FATAL,"Fatal VM error : Failed to allocate memory of size %d", st);
+		log_fatal("Failed to allocate memory of size %d", st);
 		exit(1);
 	}
 	return mem;

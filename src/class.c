@@ -41,20 +41,20 @@ Java_class* create_class (FILE* fptr){
     Java_class* jc = (Java_class*) mem_alloc(sizeof (struct _class));
     jc->magic = read_u4(fptr);
     if (jc->magic != JAVA_MAGIC)
-       log_stderr(FATAL,"invalid magic number in class file ");
+       log_fatal("invalid magic number in class file ");
     jc->minor = read_u2(fptr);
     jc->major = read_u2(fptr);
-    log_stderr(TRACE,"Running class file version %d.%d (Java %d)",jc->major,jc->minor, jc->major - 44);
+    log_trace("Running class file version %d.%d (Java %d)",jc->major,jc->minor, jc->major - 44);
     jc->cp_count = read_u2(fptr);
-    log_stderr(TRACE,"Constant pool size : %d",jc->cp_count);
+    log_trace("Constant pool size : %d",jc->cp_count);
     init_cp(&jc->cp, jc->cp_count, fptr);
     jc->fg = get_class_flags(read_u2(fptr));
     //if (is_verbose())
     //   debug_print(&jc->fg);
     jc->this_class = read_u2(fptr);
-    log_stderr(TRACE,"This class : %s", resolve_utf8(&jc->cp, jc->this_class));
+    log_trace("This class : %s", resolve_utf8(&jc->cp, jc->this_class));
     jc->super_class = read_u2(fptr);
-    log_stderr(TRACE,"Super class : %s ", resolve_utf8(&jc->cp, jc->super_class));
+    log_trace("Super class : %s ", resolve_utf8(&jc->cp, jc->super_class));
     jc->inters_count = read_u2(fptr);
     jc->inters = (u2_t*) mem_alloc(sizeof (u2_t) * jc->inters_count);
     for (u2_t i = 0; i < jc->inters_count; i++) {
@@ -63,10 +63,10 @@ Java_class* create_class (FILE* fptr){
     jc->fields_count = read_u2(fptr);
     init_fields(&jc->fds, jc->fields_count, fptr);
     jc->meths_count = read_u2(fptr);
-    log_stderr(TRACE, "Initializing methods ");
+    log_trace("Initializing methods ");
     init_methods(&jc->mts, jc->meths_count, fptr, &jc->cp);
     jc->attrs_count = read_u2(fptr);
     jc->cl = get_class_attr(fptr,&jc->cp,jc->attrs_count);
-    log_stderr(TRACE, "Source file for this class : %s", resolve_utf8(&jc->cp,jc->cl->cp_index));
+    log_trace("Source file for this class : %s", resolve_utf8(&jc->cp,jc->cl->cp_index));
     return jc;
 }

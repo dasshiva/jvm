@@ -20,7 +20,7 @@ void init_methods(methods** mt, u2_t sz, FILE* fptr, constant_pool** cp) {
 		m[i].n_index = read_u2(fptr);
 		m[i].desc_index = read_u2(fptr);
 		m[i].attr = get_method_attr(fptr,cp, read_u2(fptr));
-		log_stderr(TRACE,"Registered function %s", resolve_utf8(cp,m[i].n_index));
+		log_trace("Registered function %s", resolve_utf8(cp,m[i].n_index));
 	}
 }
 

@@ -26,13 +26,14 @@ void parse_args(int argc, char* *argv) {
 			char c;
 			switch ((c = argv[i][1])) {
 				case 'v': flgs.verbose = 1; break;
+				case 'l': flgs.log_file = 1; break;
 				case 'f': prev = c; expect = 1; break;
-				default: log_stderr(FATAL, "Unknown command line option -%c", c);
+				default: log_fatal("Unknown command line option -%c", c);
 			}
 		}
 	}
 	if (expect) 
-		log_stderr(FATAL,"Expected argument for option -%c",prev);
+		log_fatal("Expected argument for option -%c",prev);
 }
 
 int is_verbose() {
@@ -41,6 +42,10 @@ int is_verbose() {
 
 char* get_file () {
 	if (!flgs.file) 
-		log_stderr(FATAL,"Expected a file argument");
+		log_fatal("Expected a file argument");
 	return flgs.file;
+}
+
+int is_log_file () {
+	return flgs.log_file;
 }

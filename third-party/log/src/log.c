@@ -29,6 +29,7 @@
 void exit(int status);
 
 
+static FILE* log_file = 0;
 static const char *level_strings[] = {
   "VM Trace :", "Info :", "VM Warning : ","Fatal VM Error :"
 };
@@ -42,13 +43,13 @@ static void stdout_callback(log_Event *ev) {
 }
 
 
-static void file_callback(log_Event *ev, FILE* fptr) {
+static void file_callback(log_Event *ev) {
 	char buf[64];
 	buf[strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", ev->time)] = '\0';
-	fprintf(fptr, "%s %-5s %s:%d: ", buf, level_strings[ev->level], ev->file, ev->line);
-	vfprintf(fptr, ev->fmt, ev->ap);
-	fprintf(fptr, "\n");
-	fflush(fptr);
+	fprintf(log_file, "%s %-5s %s:%d: ", buf, level_strings[ev->level], ev->file, ev->line);
+	vfprintf(log_file, ev->fmt, ev->ap);
+	fprintf(log_file, "\n");
+	fflush(log_file);
 }
 
 
@@ -60,28 +61,13 @@ static void init_event(log_Event *ev) {
 	}
 }
 
-
-void log_stderr (int level, const char *fmt, ...) {
-	log_Event ev = {
-		.fmt   = fmt,
-		.level = level,
-	};
-
-	/* Shivashish Das 13.3.22 :
-	 * Don't log traces unless we are running on verbose mode */
-	if ((level == TRACE && is_verbose()) || level !=TRACE) {
-		va_start(ev.ap, fmt);
-		stdout_callback(&ev);
-		va_end(ev.ap);
-	}
-
-	if (level == FATAL) 
-		exit(1);
+void set_file_target(FILE* fptr) {
+	log_file = fptr;
 }
 
-void log_f (FILE* fptr, int level, const char* file , int line, const char* fmt,...) {
+void log_log (int level, const char* file , int line, const char* fmt,...) {
 	log_Event ev = {                                             
-		.fmt   = fmt, 
+		.fmt   = fmt,
 		.file  = file,
 		.line  = line,
 		.level = level,
@@ -89,7 +75,12 @@ void log_f (FILE* fptr, int level, const char* file , int line, const char* fmt,
 
 	init_event(&ev);
 	va_start(ev.ap, fmt);
-	file_callback(&ev,fptr);
+	/* Shivashish Das 13.3.22 :
+         * Don't log traces unless we are running on verbose mode */
+	if ((level == TRACE && is_verbose()) || level !=TRACE)
+		stdout_callback(&ev);
+	if (log_file)
+		file_callback(&ev);
 	va_end(ev.ap);
 
 	if (level == FATAL)

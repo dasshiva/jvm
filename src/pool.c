@@ -15,7 +15,7 @@ static void fill_cp (constant_pool** cp, u2_t sz, FILE* fptr);
 
 void init_cp (constant_pool** cp , u2_t sz, FILE* fptr) {
 	*cp = (struct pool_elem*) mem_alloc(sizeof(struct pool_elem) * sz); 
-	log_stderr(TRACE, "allocated %d bytes for constant pool",sz * sizeof (struct pool_elem));
+	log_trace( "allocated %d bytes for constant pool",sz * sizeof (struct pool_elem));
 	fill_cp(cp,sz,fptr);
 }
 
@@ -72,7 +72,7 @@ static void fill_cp (constant_pool** cp, u2_t sz, FILE* fptr) {
 				init_float(cp[curr_index].flt,fptr);
 				break;
 				*/
-			default: log_stderr(WARN,"Unsupported tag %d", tag);
+			default: log_warn("Unsupported tag %d", tag);
 		}
 	}
 }
