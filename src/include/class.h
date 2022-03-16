@@ -22,6 +22,8 @@ typedef struct _class {
     fields* fds;
     u2_t meths_count;
     methods* mts;
+    u2_t attrs_count;
+    class_attrs* cl;
 } Java_class;
 
 Java_class* create_class(FILE* fptr);

@@ -39,7 +39,14 @@ typedef struct {
     u1_t* info;
 } field_attrs;
 
+typedef struct {
+    u2_t attr_index;
+    u4_t attr_len;
+    u2_t cp_index;
+} class_attrs;
+
 field_attrs* get_field_attr (FILE* fptr);
-method_attrs* get_method_attr (FILE* fptr, constant_pool**, u2_t);
+method_attrs* get_method_attr (FILE*, constant_pool**, u2_t);
+class_attrs* get_class_attr (FILE*, constant_pool**,u2_t);
 
 #endif

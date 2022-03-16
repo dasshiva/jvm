@@ -65,5 +65,8 @@ Java_class* create_class (FILE* fptr){
     jc->meths_count = read_u2(fptr);
     log_stderr(TRACE, "Initializing methods ");
     init_methods(&jc->mts, jc->meths_count, fptr, &jc->cp);
+    jc->attrs_count = read_u2(fptr);
+    jc->cl = get_class_attr(fptr,&jc->cp,jc->attrs_count);
+    log_stderr(TRACE, "Source file for this class : %s", resolve_utf8(&jc->cp,jc->cl->cp_index));
     return jc;
 }

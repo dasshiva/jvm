@@ -25,7 +25,7 @@ field_attrs* get_field_attr (FILE* fptr) {
 method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) {
 	method_attrs* met = (method_attrs*) mem_alloc(sizeof (method_attrs) * total_attrs);
 	u1_t* attr_name = NULL;
-	for (int i = 0; i < total_attrs; i++){
+	for (u2_t i = 0; i < total_attrs; i++){
 		attr_name = resolve_utf8(cp,read_u2(fptr));
 		if (strcmp("Code",attr_name) == 0) {
 			met->have_code = 1;
@@ -43,7 +43,7 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 				log_stderr(FATAL, "Exceptions are not supported for now");
 			met->code->attrs_count = read_u2(fptr);
 			met->code->attr_info = (struct _at_info*) mem_alloc(sizeof (struct _at_info));
-			for (int i = 0; i < met->code->attrs_count; i++) {
+			for (u2_t i = 0; i < met->code->attrs_count; i++) {
 				attr_name = resolve_utf8(cp,read_u2(fptr));
 				if (strcmp("LineNumberTable", attr_name) == 0) {
 					met->code->attr_info->have_tab = 1;
@@ -57,6 +57,7 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 					}
 
 				}
+
 				/* TODO: It is against the JVM spec for any JVM implementation to complain 
 				 * when it does not recognize an attribute so we have to support 
 				 * ignoring unknown (or unsupported) attributes as soon as possible */
@@ -67,4 +68,19 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 		else log_stderr (FATAL, "Attribute %s is not supported yet", attr_name);
 	}
 	return met;
+}
+
+class_attrs* get_class_attr (FILE* fptr, constant_pool** cp, u2_t max_attrs) {
+	class_attrs* ca = (class_attrs*) mem_alloc(sizeof (class_attrs) * max_attrs);
+	u1_t* attr_name = NULL;
+	for (u2_t i = 0; i < max_attrs; i++) {
+		attr_name = resolve_utf8(cp,read_u2(fptr));
+		if (strcmp("SourceFile", attr_name) == 0) {
+			ca[i].attr_index = read_u2(fptr);
+			ca[i].attr_len = read_u2(fptr);
+			ca[i].cp_index = read_u2(fptr);
+		}
+		else log_stderr (FATAL, "Attribute %s is not supported yet", attr_name);
+	}
+	return ca;
 }
