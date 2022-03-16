@@ -52,9 +52,9 @@ Java_class* create_class (FILE* fptr){
     //if (is_verbose())
     //   debug_print(&jc->fg);
     jc->this_class = read_u2(fptr);
-    log_stderr(TRACE,"This class : %s", resolve_utf8(&jc->cp, jc->this_class, jc->cp_count));
+    log_stderr(TRACE,"This class : %s", resolve_utf8(&jc->cp, jc->this_class));
     jc->super_class = read_u2(fptr);
-    log_stderr(TRACE,"Super class : %s ", resolve_utf8(&jc->cp, jc->super_class, jc->cp_count));
+    log_stderr(TRACE,"Super class : %s ", resolve_utf8(&jc->cp, jc->super_class));
     jc->inters_count = read_u2(fptr);
     jc->inters = (u2_t*) mem_alloc(sizeof (u2_t) * jc->inters_count);
     for (u2_t i = 0; i < jc->inters_count; i++) {

@@ -6,29 +6,30 @@
 #include <stdio.h>
 
 typedef struct {
-    u2_t attribute_name_index;
-    u4_t attribute_length;
-    u2_t max_stack;
-    u2_t max_locals;
-    u4_t code_length;
-    u1_t* code;
-    u2_t exception_table_length;
-    u2_t attributes_count;
-} code_attr;
-
-typedef struct {
-    u2_t attribute_name_index;
-    u4_t attribute_length;
-    u2_t line_number_table_length;
+    u4_t attr_len;
+    u2_t tab_len;
     struct __line_tab {   
         u2_t start_pc;
-        u2_t line_number;	
+        u2_t ln_no;	
     } *line_num_table;
 } line_num_table_attr;
 
 typedef struct {
-    code_attr* code;
-    line_num_table_attr* lt;
+    u4_t len;                                                             u2_t max_stack;
+    u2_t max_locals;
+    u4_t code_len;
+    u1_t* code;
+    u2_t except_table_len;
+    u2_t attrs_count;
+    struct _at_info {
+	    u1_t have_tab;
+	    line_num_table_attr* lt;
+    } *attr_info;
+} code_attr;
+
+typedef struct {
+	u1_t have_code;
+	code_attr* code;
 } method_attrs; 
 
 typedef struct {

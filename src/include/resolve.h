@@ -3,6 +3,6 @@
 
 #include "pool.h"
 #include "methods.h"
-u1_t* resolve_utf8 (constant_pool**, u2_t, u2_t);
+u1_t* resolve_utf8 (constant_pool**, u2_t);
 
 #endif
