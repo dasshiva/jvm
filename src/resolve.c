@@ -1,3 +1,10 @@
+/* File : resolve.c
+ * Descrption : provides methods for resolving various parts of the class file
+ * Date : 15.3.22
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
+ */
+
 #include "include/resolve.h"
 
 u1_t* resolve_utf8(constant_pool** cp, u2_t index) {

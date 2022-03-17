@@ -1,7 +1,8 @@
 /* File : reader.c
  * Description : contains methods for reading from a .class file
  * Date : 11.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/reader.h"

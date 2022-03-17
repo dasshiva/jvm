@@ -1,7 +1,8 @@
 /* File : main.c
  * Descrption : The entry point for the JVM
  * Date : 11.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * License : MIT License (Look at the LICENSE file for more details)
  */
 
 #include "include/class.h"

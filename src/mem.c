@@ -1,7 +1,8 @@
 /* File : alloc.c 
  * Descrption : contains methods for managing memory
  * Date : 12.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/error.h"

@@ -1,7 +1,8 @@
 /* File : fields.c
  * Description : contains methods for creating and managing fields
  * Date : 14.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/fields.h"

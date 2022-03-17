@@ -1,7 +1,8 @@
 /* File : class.c
  * Descrption : contains methods for creating the in-memory representation of a .class file
  * Date : 11.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/class.h"

@@ -1,7 +1,8 @@
 /* File : pool.c
  * Description : contains methods for creating the constant pool and resolving constant pool indices 
  * Date : 11.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/reader.h"
@@ -12,6 +13,7 @@
 #include <log.h>
 
 static void fill_cp (constant_pool** cp, u2_t sz, FILE* fptr);
+static float init_float(u4_t flt);
 
 void init_cp (constant_pool** cp , u2_t sz, FILE* fptr) {
 	*cp = (struct pool_elem*) mem_alloc(sizeof(struct pool_elem) * sz); 
@@ -62,31 +64,29 @@ static void fill_cp (constant_pool** cp, u2_t sz, FILE* fptr) {
 				cp1[curr_index].fld->cl_index = read_u2(fptr);
                                 cp1[curr_index].fld->nt_index = read_u2(fptr);
                                 break;
-			/*
 			case CONSTANT_Integer:
-				cp[curr_index].tag = tag;
-				init_int(cp[curr_index].num,fptr);
+				cp1[curr_index].tag = tag;
+				cp1[curr_index].num = (int_elem*) mem_alloc(sizeof (int_elem));
+				cp1[curr_index].num->val = (int) read_u4(fptr);
 				break;
 			case CONSTANT_Float: 
-				cp[curr_index].tag = tag;
-				init_float(cp[curr_index].flt,fptr);
+				cp1[curr_index].tag = tag;
+				cp1[curr_index].flt = (flt_elem*) mem_alloc(sizeof (flt_elem));
+				cp1[curr_index].flt->val = init_float(read_u4(fptr));
 				break;
-				*/
 			default: log_warn("Unsupported tag %d", tag);
 		}
 	}
 }
 
-static void init_float(flt_elem* in, FILE* fptr) {
-	in = (flt_elem*) mem_alloc(sizeof (in));
-	in->bytes = read_u4(fptr);
-	int temp = (int) in->bytes;
+static float init_float(u4_t flt){
+	int temp = (int) flt;
 
 	/* copied verbatim from the JVM spec */
 	int s = ((temp >> 31) == 0) ? 1 : -1;
 	int e = ((temp >> 23) & 0xff);
 	int m = (e == 0) ? (temp & 0x7fffff) << 1 : (temp & 0x7fffff) | 0x800000;
-	in->val = s * m * 2e-150;
+	return s * m * 2e-150;
 }
 
 

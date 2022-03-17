@@ -1,7 +1,8 @@
 /* File : access.c
  * Descrption : defines the access flags and methods to convert the flags of the class file into a *_flags structures
  * Date : 12.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/access.h"

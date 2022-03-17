@@ -1,7 +1,8 @@
 /* File : methods.c
  * Description : contains methods for creating and managing methods
  * Date : 15.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/methods.h"

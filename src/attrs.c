@@ -1,7 +1,8 @@
 /* File : attrs.c
  * Descrption : contains  method for creating attributes
  * Date : 14.3.22
- * Author : Shivashish Das
+ * Author : dasshiva
+ * LICENSE : MIT License (look at the LICENSE file for more details)
  */
 
 #include "include/attrs.h"

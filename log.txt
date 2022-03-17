@@ -1,0 +1,10 @@
+2022-03-17 13:59:21 VM Trace : src/main.c:16: Starting JVM
+2022-03-17 13:59:21 VM Trace : src/class.c:47: Running class file version 63.0 (Java 19)
+2022-03-17 13:59:21 VM Trace : src/class.c:49: Constant pool size : 15
+2022-03-17 13:59:21 VM Trace : src/pool.c:19: allocated 1080 bytes for constant pool
+2022-03-17 13:59:21 VM Trace : src/class.c:55: This class : Hello
+2022-03-17 13:59:21 VM Trace : src/class.c:57: Super class : java/lang/Object 
+2022-03-17 13:59:21 VM Trace : src/class.c:66: Initializing methods 
+2022-03-17 13:59:21 VM Trace : src/methods.c:23: Registered function <init>
+2022-03-17 13:59:21 VM Trace : src/methods.c:23: Registered function add
+2022-03-17 13:59:21 VM Trace : src/class.c:70: Source file for this class : Hello.java

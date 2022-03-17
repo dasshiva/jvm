@@ -25,12 +25,10 @@ typedef struct CONSTANT_Utf8_info {
 } utf8_elem;
 
 typedef struct CONSTANT_Integer_info {
-    u4_t bytes;
-	int val;
+    int val;
 } int_elem;
 
 typedef struct CONSTANT_Float_info {
-    u4_t bytes;
     float val;
 } flt_elem;
 
