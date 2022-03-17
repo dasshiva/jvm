@@ -58,15 +58,18 @@ method_attrs* get_method_attr(FILE* fptr, constant_pool** cp, u2_t total_attrs) 
 					}
 
 				}
-
-				/* TODO: It is against the JVM spec for any JVM implementation to complain 
-				 * when it does not recognize an attribute so we have to support 
-				 * ignoring unknown (or unsupported) attributes as soon as possible */
-				else
-					log_fatal("Code attribute %s not supported yet", attr_name);
+				else {
+					u4_t attr_len = read_u4(fptr);
+					fseek(fptr,attr_len,SEEK_CUR);
+					log_warn("Code attribute %s not supported yet. Skipping it", attr_name);
+				}
 			}
 		}
-		else log_fatal("Attribute %s is not supported yet", attr_name);
+		else {
+			u4_t attr_len = read_u4(fptr);
+			fseek(fptr,attr_len,SEEK_CUR);
+			log_warn("Attribute %s is not supported yet. Skipping it", attr_name);
+		}
 	}
 	return met;
 }
