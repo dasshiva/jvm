@@ -15,4 +15,5 @@ typedef struct _method {
 } methods;
 
 void init_methods(methods** fd, u2_t sz, FILE* fptr, constant_pool** cp);
+
 #endif

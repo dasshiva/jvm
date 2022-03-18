@@ -1,11 +1,11 @@
 #ifndef _CLASS_H_
 #define _CLASS_H_
 
+#include "methods.h"
 #include "types.h"
 #include "pool.h"
 #include "access.h"
 #include "fields.h"
-#include "methods.h"
 #include <stdio.h>
 
 typedef struct _class {

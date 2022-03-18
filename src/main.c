@@ -7,6 +7,7 @@
 
 #include "include/class.h"
 #include "include/cmdparser.h"
+#include "include/exec.h"
 #include <log.h>
 
 int main (int argc, char* argv[]) {
@@ -16,6 +17,10 @@ int main (int argc, char* argv[]) {
 	    set_file_target(fopen("log.txt","w"));
     log_trace("Starting JVM");
     Java_class* jc = create_class(fptr);
+    frame* main = get_frame("main","([Ljava/lang/String;)V",jc);
+    if (main == NULL)
+	    log_fatal("Main method not found");
+    exec_frame(&main);
     fclose(fptr);
 }
 

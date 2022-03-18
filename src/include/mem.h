@@ -4,6 +4,6 @@
 #include <sys/types.h>
 
 void* mem_alloc (size_t sz);
-void free_mem (void* mem);
+void mem_free (void* mem);
 
 #endif
