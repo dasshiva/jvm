@@ -3,6 +3,6 @@
 
 #include "frame.h"
 
-int exec_frame (frame**);
+f_args* exec_frame (frame**);
 
 #endif

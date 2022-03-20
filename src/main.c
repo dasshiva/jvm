@@ -20,7 +20,9 @@ int main (int argc, char* argv[]) {
     frame* main = get_frame("main","([Ljava/lang/String;)V",jc);
     if (main == NULL)
 	    log_fatal("Main method not found");
+    log_trace("Starting main method execution");
     exec_frame(&main);
+    log_trace("Finished main method execution");
     fclose(fptr);
 }
 

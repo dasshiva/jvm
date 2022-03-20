@@ -14,8 +14,8 @@ typedef struct _class {
     u2_t cp_count;
     constant_pool* cp;
     cl_flags fg;
-    u2_t this_class;
-    u2_t super_class;
+    u1_t* this_class;
+    u1_t* super_class;
     u2_t inters_count;
     u2_t* inters;
     u2_t fields_count;
@@ -27,4 +27,5 @@ typedef struct _class {
 } Java_class;
 
 Java_class* create_class(FILE* fptr);
+Java_class* get_classref (u1_t* name);
 #endif

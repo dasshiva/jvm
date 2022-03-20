@@ -25,5 +25,6 @@ typedef struct __frame {
 } frame;
 
 frame* get_frame(const char* name, const char* desc, Java_class* jc);
+void destroy_frame (frame** f);
 
 #endif

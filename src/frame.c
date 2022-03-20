@@ -9,6 +9,8 @@
 #include "include/mem.h"
 #include "include/resolve.h"
 
+#include <string.h>
+
 static frame* new_frame(constant_pool** cp, code_attr* cd) {
 	frame* ret = (frame*) mem_alloc(sizeof (frame));
 	ret->pc = 0;
@@ -31,10 +33,16 @@ frame* get_frame(const char* name, const char* desc, Java_class* jc){
         return NULL;           
 }
 
+void push(frame** f, f_args* arg) {
+	(*f)->stack->op[++(*f)->stack->top] = *arg;
+}
+
+f_args* pop (frame** f) {
+	return &(*f)->stack->op[(*f)->stack->top--];
+}
+
 void destroy_frame (frame** f) {
-	mem_free((*f)->stack->op);
-	mem_free((*f)->stack);
-	mem_free((*f)->tab);
-	mem_free(*f);
-	*f = NULL;
+	frame* deref = *f;
+	mem_free(deref->stack->op);
+	mem_free(deref->code);
 }

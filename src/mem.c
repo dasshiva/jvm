@@ -19,6 +19,10 @@ void* mem_alloc (size_t st) {
 	return mem;
 }
 
+void mem_realloc(void* mem, size_t sz) {
+	mem = realloc(mem, sz);
+}
+
 void mem_free (void* mem) {
 	free(mem);
 }
